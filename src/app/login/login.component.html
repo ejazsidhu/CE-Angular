@@ -4,7 +4,8 @@
         <form #f="ngForm" class="login-form" fxFlex>
             <div class="text-center">
                 <h2 class="app-name">
-                    <img src="{{login_logo}}" height="100" alt="">
+                    CE Angular
+                    <!-- <img src="{{login_logo}}" height="100" alt=""> -->
                 </h2>
             </div>
             <div fxFlex fxlayout="row" fxlayout.lt-md="column">
@@ -36,7 +37,7 @@
 
             <div fxFlex fxLayout="row" fxLayout.lt-md="column" style="margin: 20px 0 30px 0">
                 <div fxFlexFill>
-                    <button [disabled]="f.invalid || loading" mat-raised-button color="" class="w-100 primary-red" (click)="onLogin(f.value)">
+                    <button [disabled]="f.invalid || loading" mat-raised-button color="" class="w-100 primary-blue" (click)="onLogin(f.value)">
                             <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loading}"></i>
                         Login</button>
                 </div>
