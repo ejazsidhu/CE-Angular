@@ -11,6 +11,7 @@ import { NgModel } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap';
 import * as _ from 'lodash';
 import { config } from 'src/assets/config';
+import { AnimationGroupPlayer } from '@angular/animations/src/players/animation_group_player';
 
 @Component({
   selector: 'filter-bar',
@@ -18,22 +19,9 @@ import { config } from 'src/assets/config';
   styleUrls: ['./filter-bar.component.scss']
 })
 export class FilterBarComponent implements OnInit {
-  //#endregion
 
-  constructor(
-    private toastr: ToastrService,
-    private httpService: DashboardService,
-    public router: Router,
-    private dataService: DashboardDataService
-  ) {
-    this.zones = JSON.parse(localStorage.getItem('zoneList'));
-    this.categoryList = JSON.parse(localStorage.getItem('assetList'));
-    this.channels = JSON.parse(localStorage.getItem('channelList'));
-
-    console.log(this.categoryList);
-    this.sortIt('completed');
-  }
-  tableData: any = [];
+  //#region variables
+tableData: any = [];
   // ip = environment.ip;
   configFile = config;
 
@@ -43,14 +31,14 @@ export class FilterBarComponent implements OnInit {
   selectedDistribution: any = {};
   storeType: any = ['Elite', 'Platinum', 'Gold', 'Silver', 'Others'];
   selectedStoreType = null;
-  //#region veriables
+ 
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
   @Input() title;
   zones: any = [];
   loadingData: boolean;
   regions: any = [];
-  channels: any = [];
+  channels= [];
 
   selectedZone: any = {};
   selectedRegion: any = {};
@@ -83,11 +71,83 @@ export class FilterBarComponent implements OnInit {
   loadingReportMessage = false;
   tabsData: any = [];
   loading = true;
-  sortOrder = true;
-  sortBy: 'completed';
+  sortOrder = true;sortBy: 'completed';
   selectedRemark=0;
   remarksList=[];
+  //#endregion
 
+
+
+  constructor(
+    private toastr: ToastrService,
+    private httpService: DashboardService,
+    public router: Router,
+    private dataService: DashboardDataService
+  ) {
+    this.zones = JSON.parse(localStorage.getItem('zoneList'));
+    // this.categoryList = JSON.parse(localStorage.getItem('assetList'));
+    // this.channels = JSON.parse(localStorage.getItem('channelList'));
+    // console.log(this.categoryList);
+    this.sortIt('completed');
+
+    this.getCELandingPageSummary();
+  }
+
+
+  //#region CE-data
+
+  getCELandingPageSummary(){
+ 
+    this.loadingData=true;
+
+    let obj={
+      zoneId: this.selectedZone.id || -1,
+      regionId:this.selectedRegion.id || -1,
+        startDate: moment(this.startDate).format('YYYY-MM-DD'),
+        endDate: moment(this.endDate).format('YYYY-MM-DD'),
+    }
+    this.httpService.getLandingPageSummary(obj).subscribe((data:any)=>{
+      console.log("Summary data",data);
+      // this.loadingData=false;
+      if(data){
+        this.tabsData=data
+      }
+    })
+
+    this.httpService.getCESummaryTableData(obj).subscribe((data:any)=>{
+      console.log("Summary table data",data);
+      // this.loadingData=false;
+      if(data){
+        this.tableData=data
+      }
+      this.loadingData=false;
+
+    })
+  }
+
+  regionChangeGetSurveyerList(){
+    this.loadingData=true;
+    let obj={
+      regionId: this.selectedZone.id || -1,
+      
+        startDate: moment(this.startDate).format('YYYY-MM-DD'),
+        endDate: moment(this.endDate).format('YYYY-MM-DD'),
+    }
+    this.httpService.getCESurveryersList(obj).subscribe((data:any)=>{
+      this.getCELandingPageSummary();
+      console.log("surveryers List",data);
+      this.regions=data;
+      this.loadingData=false;
+    })
+
+  }
+  //#endregion
+
+
+  //#region Old-code
+  
+
+  
   // @ViewChild('remarksModal') remarksModal: ModalDirective;
   // showRemarksModal(){this.remarksModal.show(); }
   // hideRemarksModal(){
@@ -1076,4 +1136,5 @@ export class FilterBarComponent implements OnInit {
       return objOne.id === objTwo.id;
     }
   }
+  //#endregion
 }

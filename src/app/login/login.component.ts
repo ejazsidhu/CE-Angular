@@ -16,8 +16,7 @@ export class LoginComponent implements OnInit {
     login_logo=config.login_logo;
     loginForm: any = {
         userName: '',
-        password: '',
-        cbl:'Y'
+        password: ''
     };
     loading=false;
     constructor(private router: Router, private httpService: DashboardService, private toastr: ToastrService) { }

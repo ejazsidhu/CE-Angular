@@ -29,6 +29,7 @@ import { ShopsForSingleRouteComponent } from './innerComponents/upload-routes/ro
 import { AddDeviceComponent } from './innerComponents/add-device/add-device.component';
 import { SupervisorWwwrSummaryComponent } from './innerComponents/supervisor-wwwr-summary/supervisor-wwwr-summary.component';
 import { ShopListReportComponent } from './innerComponents/shop-list-report/shop-list-report.component';
+import { LandingpageComponent } from './CE-pages/landingpage/landingpage.component';
 
 const routes: Routes = [
     {
@@ -37,36 +38,36 @@ const routes: Routes = [
         canActivate: [DashboardGuard],
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: 'home', component: HomeComponent },
-            { path: 'daily_visit_report', component: DailyVisitReportComponent },
-            { path: 'oos_details_report', component: DetailsComponent },
-            { path: 'shop_list_report', component: ShopListComponent },
-            { path: 'summary_report', component: SummaryComponent },
-            { path: 'productivity_report', component: ProductivityComponent },
-            { path: 'msl_dashboard', component: MslDashboardComponent },
-            { path: 'productivity_dashboard', component: ProductivityDashboardComponent },
-            { path: 'tposm_deployment_report', component: TposmDeploymentReportComponent },
-            { path: 'daily_evaluation_report', component: DailyEvaluationReportComponent },
-            { path: 'update_password', component: UpdatePasswordComponent },
-            { path: 'raw_data', component: RawDataComponent },
-            { path: 'brand_sku_oos', component: DataAvailabilityComponent },
-            { path: 'supervisor_wwwr_summary', component: SupervisorWwwrSummaryComponent },
-            { path: 'data_abnormality_report', component: AbnormalityComponent },
-            { path: 'time-analysis-report', component: TimeAnalysisReportComponent },
-            { path: 'shop-list-report', component: ShopListReportComponent },
-            { path: 'merchandiser_List', component: MerchandiserListComponent },
-            { path: 'merchandiser_attendance', component: MerchandiserAttendanceComponent },
-            { path: 'sms_manager', component: EmailManagerComponent },
-            { path: 'upload_routes/route_list', component: UploadRoutesComponent },
-            { path: 'upload_routes/single_route_details', component: SingleRouteDetailComponent },
-            { path: 'upload_routes/shops_for_single_route', component: ShopsForSingleRouteComponent },
-            { path: 'add_device', component: AddDeviceComponent },
+            { path: 'home', component:LandingpageComponent },
+            // { path: 'daily_visit_report', component: DailyVisitReportComponent },
+            // { path: 'oos_details_report', component: DetailsComponent },
+            // { path: 'shop_list_report', component: ShopListComponent },
+            // { path: 'summary_report', component: SummaryComponent },
+            // { path: 'productivity_report', component: ProductivityComponent },
+            // { path: 'msl_dashboard', component: MslDashboardComponent },
+            // { path: 'productivity_dashboard', component: ProductivityDashboardComponent },
+            // { path: 'tposm_deployment_report', component: TposmDeploymentReportComponent },
+            // { path: 'daily_evaluation_report', component: DailyEvaluationReportComponent },
+            // { path: 'update_password', component: UpdatePasswordComponent },
+            // { path: 'raw_data', component: RawDataComponent },
+            // { path: 'brand_sku_oos', component: DataAvailabilityComponent },
+            // { path: 'supervisor_wwwr_summary', component: SupervisorWwwrSummaryComponent },
+            // { path: 'data_abnormality_report', component: AbnormalityComponent },
+            // { path: 'time-analysis-report', component: TimeAnalysisReportComponent },
+            // { path: 'shop-list-report', component: ShopListReportComponent },
+            // { path: 'merchandiser_List', component: MerchandiserListComponent },
+            // { path: 'merchandiser_attendance', component: MerchandiserAttendanceComponent },
+            // { path: 'sms_manager', component: EmailManagerComponent },
+            // { path: 'upload_routes/route_list', component: UploadRoutesComponent },
+            // { path: 'upload_routes/single_route_details', component: SingleRouteDetailComponent },
+            // { path: 'upload_routes/shops_for_single_route', component: ShopsForSingleRouteComponent },
+            // { path: 'add_device', component: AddDeviceComponent },
 
 
 
         ]
     },
-    // { path: 'shop_detail/:id', component: ShopDetailComponent },
+    { path: 'shop_detail/:id', component: ShopDetailComponent },
     { path: 'shop_detail/:id', component: ShopDetailComponent },
 
     { path: 'evaluation', loadChildren: './evaluation/evaluation.module#EvaluationModule' },

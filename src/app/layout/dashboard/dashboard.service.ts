@@ -42,18 +42,34 @@ configFile = config;
     this.dataSource.next(data);
   }
 
+  //#region CE-Angular Calls
+
   login(credentials: any) {
-    // let body=JSON.stringify(credentials)
-    const url = this.ip + 'pictureLogin';
+    const url = this.ip + 'portal/auth/login';
     return this.http.post(url, credentials);
-    // .pipe(
-    //   timeout(60000),
-    //   catchError(e => {
-    //     this.toastr.error('Due to limited connectivity your request could not be completed, please try again', 'Request Timeout')
-    //     return of(null);
-    //   })
-    // );
+
   }
+  
+  getLandingPageSummary(data){
+    const url = this.ip + '/landing-shop-summary';
+    return this.http.post(url,data);
+
+  }
+  getCESurveryersList(obj){
+    obj.act=2;
+    const filter = JSON.stringify(obj);
+    const url = this.ip + 'loadFilters';
+    return this.http.post(url, filter);
+  }
+  getCESummaryTableData(data){
+    const url = this.ip + '/landing-surveyor-summary';
+    return this.http.post(url,data);
+  }
+//#endregion
+
+
+  //#region Old calls
+
 
   updatePassword(obj) {
     const url = this.ip + 'change-password';
@@ -207,6 +223,8 @@ configFile = config;
     // );
   }
 
+ 
+
   getProducts(categoryId) {
     this.user_id = localStorage.getItem('user_id');
 
@@ -339,4 +357,6 @@ configFile = config;
       return this.http.post(url, obj
       );
     }
+
+    //#endregion
 }
