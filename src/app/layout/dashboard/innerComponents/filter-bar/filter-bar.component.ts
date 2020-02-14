@@ -12,6 +12,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 import * as _ from 'lodash';
 import { config } from 'src/assets/config';
 import { AnimationGroupPlayer } from '@angular/animations/src/players/animation_group_player';
+import { ExcelService } from '../../excel.service';
 
 @Component({
   selector: 'filter-bar',
@@ -74,6 +75,8 @@ tableData: any = [];
   sortOrder = true;sortBy: 'completed';
   selectedRemark=0;
   remarksList=[];
+  selectedSurveryer:any={};
+  surveyorsList:any=[];
   //#endregion
 
 
@@ -82,13 +85,14 @@ tableData: any = [];
     private toastr: ToastrService,
     private httpService: DashboardService,
     public router: Router,
-    private dataService: DashboardDataService
+    private dataService: DashboardDataService,
+    private excelService: ExcelService,
   ) {
     this.zones = JSON.parse(localStorage.getItem('zoneList'));
     // this.categoryList = JSON.parse(localStorage.getItem('assetList'));
     // this.channels = JSON.parse(localStorage.getItem('channelList'));
     // console.log(this.categoryList);
-    this.sortIt('completed');
+    this.sortIt('m_code');
 
     this.getCELandingPageSummary();
   }
@@ -97,12 +101,15 @@ tableData: any = [];
   //#region CE-data
 
   getCELandingPageSummary(){
+
+
  
     this.loadingData=true;
 
     let obj={
       zoneId: this.selectedZone.id || -1,
       regionId:this.selectedRegion.id || -1,
+      surveyorId:this.selectedSurveryer.id || -1,
         startDate: moment(this.startDate).format('YYYY-MM-DD'),
         endDate: moment(this.endDate).format('YYYY-MM-DD'),
     }
@@ -115,8 +122,9 @@ tableData: any = [];
     })
 
     this.httpService.getCESummaryTableData(obj).subscribe((data:any)=>{
-      console.log("Summary table data",data);
+      console.log("table data",data);
       // this.loadingData=false;
+      this.tableData=[];
       if(data){
         this.tableData=data
       }
@@ -125,22 +133,93 @@ tableData: any = [];
     })
   }
 
-  regionChangeGetSurveyerList(){
+  getRegionsList(){
+    this.regions=[];
+    this.surveyorsList=[];
     this.loadingData=true;
     let obj={
-      regionId: this.selectedZone.id || -1,
-      
+      zoneId: this.selectedZone.id || -1,
+        startDate: moment(this.startDate).format('YYYY-MM-DD'),
+        endDate: moment(this.endDate).format('YYYY-MM-DD'),
+    }
+    this.httpService.getCERegionList(obj).subscribe((data:any)=>{
+      this.getCELandingPageSummary();
+      console.log("regions List",data);
+      this.regions=data;
+      this.loadingData=false;
+    })
+
+  }
+
+  getSurveryersList(){
+    this.surveyorsList=[];
+    this.loadingData=true;
+    let obj={
+      regionId: this.selectedRegion.id || -1,
         startDate: moment(this.startDate).format('YYYY-MM-DD'),
         endDate: moment(this.endDate).format('YYYY-MM-DD'),
     }
     this.httpService.getCESurveryersList(obj).subscribe((data:any)=>{
       this.getCELandingPageSummary();
       console.log("surveryers List",data);
-      this.regions=data;
+      this.surveyorsList=data;
       this.loadingData=false;
     })
 
   }
+
+  downlowdReport(){
+
+    let obj={
+      // zoneId: this.selectedZone.id || -1,
+      regionId:this.selectedZone.id || -1,
+      // surveyorId:this.selectedSurveryer.id || -1,
+        startDate: moment(this.startDate).format('YYYY-MM-DD'),
+        endDate: moment(this.endDate).format('YYYY-MM-DD'),
+    }
+
+    if (this.endDate >= this.startDate) {
+      this.loadingData = true;
+      this.loadingReportMessage = true;
+  
+
+      const url = 'export-data-report';
+      const body = this.httpService.UrlEncodeMaker(obj);
+      this.httpService.getKeyForProductivityReport(body, url).subscribe(
+        data => {
+          console.log(data, 'query list');
+          const res: any = data;
+
+          if (res) {
+            const obj2 = {
+              key: res.key,
+              fileType: res.fileType
+            };
+            const url = 'export-data-report';
+            this.getproductivityDownload(obj2, url);
+          } else {
+            this.clearLoading();
+
+            this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
+          }
+        },
+        error => {
+          this.clearLoading();
+        }
+      );
+    } else {
+      this.clearLoading();
+      this.toastr.info('End date must be greater than start date', 'Date Selection');
+    }
+
+  }
+
+  downloadExportData(data){
+    const fileTitle = 'Export data';
+    this.excelService.exportAsExcelFile(data, fileTitle);
+  }
+
+  
   //#endregion
 
 

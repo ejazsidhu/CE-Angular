@@ -55,6 +55,13 @@ configFile = config;
     return this.http.post(url,data);
 
   }
+  getCERegionList(obj){
+    obj.act=1;
+    const filter = JSON.stringify(obj);
+    const url = this.ip + 'loadFilters';
+    return this.http.post(url, filter);
+  }
+ 
   getCESurveryersList(obj){
     obj.act=2;
     const filter = JSON.stringify(obj);
@@ -63,6 +70,11 @@ configFile = config;
   }
   getCESummaryTableData(data){
     const url = this.ip + '/landing-surveyor-summary';
+    return this.http.post(url,data);
+  }
+
+  getExportData(data){
+    const url = this.ip + '/export-data-report';
     return this.http.post(url,data);
   }
 //#endregion

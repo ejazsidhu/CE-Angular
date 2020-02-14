@@ -30,6 +30,7 @@ import { AddDeviceComponent } from './innerComponents/add-device/add-device.comp
 import { SupervisorWwwrSummaryComponent } from './innerComponents/supervisor-wwwr-summary/supervisor-wwwr-summary.component';
 import { ShopListReportComponent } from './innerComponents/shop-list-report/shop-list-report.component';
 import { LandingpageComponent } from './CE-pages/landingpage/landingpage.component';
+import { ExportDataComponent } from './CE-pages/export-data/export-data.component';
 
 const routes: Routes = [
     {
@@ -39,6 +40,7 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component:LandingpageComponent },
+            { path: 'export_data', component: ExportDataComponent },
             // { path: 'daily_visit_report', component: DailyVisitReportComponent },
             // { path: 'oos_details_report', component: DetailsComponent },
             // { path: 'shop_list_report', component: ShopListComponent },
@@ -68,7 +70,7 @@ const routes: Routes = [
         ]
     },
     { path: 'shop_detail/:id', component: ShopDetailComponent },
-    { path: 'shop_detail/:id', component: ShopDetailComponent },
+    // { path: 'shop_detail/:id', component: ShopDetailComponent },
 
     { path: 'evaluation', loadChildren: './evaluation/evaluation.module#EvaluationModule' },
 

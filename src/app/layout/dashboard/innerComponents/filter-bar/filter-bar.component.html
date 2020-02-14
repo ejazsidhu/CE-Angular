@@ -12,16 +12,25 @@
 
             <mat-form-field class="example-margin mr-10-IMP">
                 <mat-select placeholder="Zone" name="zone" [(ngModel)]="selectedZone"
-                    (ngModelChange)="regionChangeGetSurveyerList()">
+                    (ngModelChange)="getRegionsList()">
                     <mat-option [value]="zone" *ngFor="let zone of zones">{{zone?.title}} </mat-option>
                 </mat-select>
             </mat-form-field>
 
             <mat-form-field *ngIf="regions.length>0" class="example-margin mr-10-IMP">
                 <mat-select placeholder="Region" name='region' [(ngModel)]="selectedRegion"
-                    >
+                (ngModelChange)="getSurveryersList()" >
 
-                    <mat-option [value]="region" *ngFor="let region of regions">{{region?.fullName}}</mat-option>
+                    <mat-option [value]="region" *ngFor="let region of regions">{{region?.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="surveyorsList.length>0" class="example-margin mr-10-IMP">
+                <mat-select placeholder="Surveryer" name='surveryer' [(ngModel)]="selectedSurveryer"
+                (ngModelChange)="getCELandingPageSummary()"
+                >
+
+                    <mat-option [value]="surveryer" *ngFor="let surveryer of surveyorsList">{{surveryer?.fullName}}</mat-option>
                 </mat-select>
             </mat-form-field>
 
@@ -51,7 +60,7 @@
 </mat-card>
 
 <!-- stats Tabs-->
-<div *ngIf="!loading && router.url==='/dashboard/home'" class="mb-20 animated  slideInLeft" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="10px">
+<div *ngIf="router.url==='/dashboard/home'" class="mb-20 animated  slideInLeft" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="10px">
 
 <div class="row web-view">
     <!-- <p>web view</p> -->
@@ -178,7 +187,7 @@
 
 <!-- stats end-->
 
-
+{{router.url |json}}
 <ng-container *ngIf="tableData.length>0 && router.url==='/dashboard/home'">
     <mat-card >
         <mat-card-content>
@@ -307,3 +316,52 @@
     </mat-card>
 </ng-container>
 <!--'/dashboard/home'  end-->
+
+<!--'/dashboard/export_data' -->
+<mat-card class="mb-20" *ngIf="router.url==='/dashboard/export_data'">
+
+    <mat-card-content>
+        <mat-card-title>
+            {{title| uppercase}} 
+            <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
+            <small style="color:lightseagreen !important" class="mtb-5-IMP" *ngIf="loadingReportMessage">Your file is
+                being prepared for download</small>
+
+        </mat-card-title>
+        <section class="example-section">
+
+            <mat-form-field class="example-margin mr-10-IMP">
+                <mat-select placeholder="Zone" name="zone" [(ngModel)]="selectedZone"
+                    (ngModelChange)="getRegionsList()">
+                    <mat-option [value]="zone" *ngFor="let zone of zones">{{zone?.title}} </mat-option>
+                </mat-select>
+            </mat-form-field>
+     
+
+            <mat-form-field class="example-full-width mr-10-IMP">
+                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate"
+                    placeholder="Choose a start date" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+                <mat-datepicker #picker0></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="example-full-width mr-10-IMP">
+                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" [(ngModel)]="endDate"
+                    placeholder="Choose a end date" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+
+        </section>
+
+        <section class="example-section">
+            <button *ngIf="router.url==='/dashboard/export_data'" 
+                mat-raised-button color="warn" (click)="downlowdReport()">Download</button>
+
+
+        </section>
+
+    </mat-card-content>
+</mat-card>
+
+
+<!--'/dashboard/export_data' end -->
