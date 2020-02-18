@@ -89,6 +89,8 @@ tableData: any = [];
     private excelService: ExcelService,
   ) {
     this.zones = JSON.parse(localStorage.getItem('zoneList'));
+    if(this.zones.length==0)
+    this.getZoneList();
     // this.categoryList = JSON.parse(localStorage.getItem('assetList'));
     // this.channels = JSON.parse(localStorage.getItem('channelList'));
     // console.log(this.categoryList);
@@ -102,7 +104,7 @@ tableData: any = [];
 
   getCELandingPageSummary(){
 
-
+    if(this.endDate >= this.startDate){
  
     this.loadingData=true;
 
@@ -116,8 +118,11 @@ tableData: any = [];
     this.httpService.getLandingPageSummary(obj).subscribe((data:any)=>{
       console.log("Summary data",data);
       // this.loadingData=false;
+      this.tabsData==[];
       if(data){
-        this.tabsData=data
+        this.tabsData=data;
+        // this.clearDependantList();
+
       }
     })
 
@@ -126,16 +131,35 @@ tableData: any = [];
       // this.loadingData=false;
       this.tableData=[];
       if(data){
-        this.tableData=data
+        this.tableData=data;
+        // this.clearDependantList();
       }
       this.loadingData=false;
 
     })
   }
+  else{
+    this.clearLoading();
+    this.toastr.info('End date must be greater than start date', 'Date Selection');
+   }
+
+  }
+
+  clearDependantList(){
+    this.regions=[];
+    // this.zones=[];
+    this.surveyorsList=[]
+    this.selectedRegion={};
+    this.selectedSurveryer={};
+    // this.selectedZone={};
+  }
 
   getRegionsList(){
-    this.regions=[];
-    this.surveyorsList=[];
+    // this.regions=[];
+    // this.surveyorsList=[];
+    this.clearDependantList();
+
+   if(this.endDate >= this.startDate){
     this.loadingData=true;
     let obj={
       zoneId: this.selectedZone.id || -1,
@@ -143,11 +167,16 @@ tableData: any = [];
         endDate: moment(this.endDate).format('YYYY-MM-DD'),
     }
     this.httpService.getCERegionList(obj).subscribe((data:any)=>{
-      this.getCELandingPageSummary();
+      // this.getCELandingPageSummary();
       console.log("regions List",data);
       this.regions=data;
       this.loadingData=false;
     })
+   }
+   else{
+    this.clearLoading();
+    this.toastr.info('End date must be greater than start date', 'Date Selection');
+   }
 
   }
 
@@ -160,7 +189,7 @@ tableData: any = [];
         endDate: moment(this.endDate).format('YYYY-MM-DD'),
     }
     this.httpService.getCESurveryersList(obj).subscribe((data:any)=>{
-      this.getCELandingPageSummary();
+      // this.getCELandingPageSummary();
       console.log("surveryers List",data);
       this.surveyorsList=data;
       this.loadingData=false;
@@ -193,9 +222,9 @@ tableData: any = [];
           if (res) {
             const obj2 = {
               key: res.key,
-              fileType: res.fileType
+              fileType: res.fileType || '.xlsx'
             };
-            const url = 'export-data-report';
+            const url = 'downloadReport';
             this.getproductivityDownload(obj2, url);
           } else {
             this.clearLoading();
@@ -214,9 +243,30 @@ tableData: any = [];
 
   }
 
+  formateDate(date){
+    return moment(date).format('YYYY-MM-DD')
+  }
+
   downloadExportData(data){
     const fileTitle = 'Export data';
     this.excelService.exportAsExcelFile(data, fileTitle);
+  }
+
+  getZoneList() {
+    this.httpService.getZone().subscribe(
+      data => {
+        const res: any = data;
+        if (res.zoneList) {
+          this.zones=res.zoneList
+          localStorage.setItem('zoneList', JSON.stringify(res.zoneList));
+          // localStorage.setItem('assetList', JSON.stringify(res.assetList));
+          // localStorage.setItem('channelList', JSON.stringify(res.channelList));
+        }
+      },
+      error => {
+        error.status === 0 ? this.toastr.error('Please check Internet Connection', 'Error') : this.toastr.error(error.description, 'Error');
+      }
+    );
   }
 
   

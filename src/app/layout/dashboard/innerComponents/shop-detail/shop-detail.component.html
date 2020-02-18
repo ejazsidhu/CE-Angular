@@ -24,47 +24,7 @@
 
         </mat-card-title>
 
-        <!-- <section class="example-section">
-            <table class="table animated slideInLeft" *ngIf="tableData.length>0 ">
-                <thead>
-                    <tr>
-
-                        <th scope="col">Shop Code</th>
-                        <th scope="col">Shop Name</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">VO Code</th>
-
-                        <th scope="col">VO Name</th>
-
-                        <th scope="col">Visit Date</th>
-
-                        <th scope="col">Remarks</th>
-
-
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of tableData">
-                        <td scope="row">{{item.shop_code}}</td>
-                        <td>
-                            <a class="a-link" (click)="getPdf(item);" title="view shop details">{{item.shop_title}}</a>
-                        </td>
-                        <td class="fix-address">{{item.address}}</td>
-                        <td class="fix-width">{{item.m_code}}</td>
-                        <td class="fix-width">{{item.full_name}}</td>
-                        <td class="fix-width">{{item.visit_date}}</td>
-                        <td class="fix-width">{{item.description}}</td>
-
-
-                    </tr>
-
-                </tbody>
-
-
-            </table>
-
-        </section> -->
+     
     </mat-card-content>
 </mat-card>
 
@@ -75,30 +35,14 @@
     <div class="row js">
         <ng-container *ngFor="let item of tableData;let i=index">
             <mat-card class=" col-md-3 example-card card2 ml-3 mt-3">
-                <!-- <mat-card-header>
-                    <div mat-card-avatar class="example-header-image"></div>
-                    <mat-card-title></mat-card-title>
-
-                </mat-card-header> -->
-                <!-- {{tableData.itemList |json}} -->
-                <!-- <img mat-card-image src="assets/images/LU-logo.png" height="300" alt=""  style="cursor:pointer"> -->
-                
+       
                 <div class="ribbon">
-                        <img mat-card-image class="small" src="{{ip}}{{item.shopFullImg}}" width="250" height="300" alt="" (click)="setSelectedItem(item);showChildModal()">
-                        <span *ngIf="item.evaluationStatus == 1"  class="ribbon-{{item.score>70?'green':'red'}}">
+                        <img mat-card-image class="small" src="{{ip}}{{item?.shopFullImg}}" width="250" height="300" alt="" (click)="setSelectedItem(item);showChildModal()">
+                        <span *ngIf="item?.evaluationStatus == 1"  class="ribbon-{{item.score>70?'green':'red'}}">
                             <span>{{item.score}}</span>
                         </span>
                 </div>
-
-
-
-                <!-- <div class="img-container">
-                    <img mat-card-image class="small" src="{{ip}}{{item.shopFullImg}}" width="250" height="300" alt="" (click)="setSelectedItem(item);showChildModal()">
-                    <div class="top-right-{{item.score>70?'green':'red'}}">Score: {{item?.score}}</div>
-                    
-                </div> -->
-                
-                
+               
                 
                 <mat-card-content>
                     <!-- <table class="table" (click)="getPdf(item);" style="cursor:pointer"> -->
@@ -114,10 +58,7 @@
                         <!-- <hr> -->
                     </table>
                 </mat-card-content>
-                <!-- <mat-card-actions>
-                    <button mat-button>LIKE</button>
-                    <button mat-button>SHARE</button>
-                </mat-card-actions> -->
+              
             </mat-card>
         </ng-container>
 

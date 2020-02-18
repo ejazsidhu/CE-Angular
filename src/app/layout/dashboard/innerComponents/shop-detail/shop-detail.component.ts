@@ -28,6 +28,10 @@ export class ShopDetailComponent implements OnInit {
 
   constructor(private router: Router, private httpService: DashboardService, public activatedRoute: ActivatedRoute) {
 
+    this.activatedRoute.params.subscribe(p=>{
+      console.log("params",p)
+    })
+
 
    }
    showChildModal(): void {
@@ -49,19 +53,18 @@ export class ShopDetailComponent implements OnInit {
     let id = 0;
     const o: any = JSON.parse(localStorage.getItem('obj'));
     console.log(o);
+
     this.activatedRoute.queryParams.subscribe(p => {
       this.remarksId = p.remark_id;
+    });
+    this.activatedRoute.params.subscribe(p => {
       id = p.id;
       const obj = {
-        zoneId: o.zoneId,
-        regionId: o.regionId,
-        startDate: o.startDate,
-        endDate: o.endDate,
-        merchandiserId: id,
-        remarksId: this.remarksId
-        // cityId: o.cityId || -1,
-        // distributionId:o.selectedDitribution.id ||-1,
-        // storeType:o.selectedStoreType || null,
+      
+        startDate: p.startDate,
+        endDate: p.endDate,
+        surveyorId: id,
+     
       };
 
       this.getTableData(obj);
@@ -77,12 +80,12 @@ export class ShopDetailComponent implements OnInit {
   }
   getTableData(obj) {
     this.loading = true;
-    this.httpService.getTableList(obj).subscribe(data => {
-      console.log(data, 'table data');
+    this.httpService.getCEShopData(obj).subscribe(data => {
+      console.log(data, 'table data single shop');
       const res: any = data;
       // this.dataSource = res;
       if (res != null) {
-      this.tableData = res;
+      this.tableData = res.shopList;
       }
       this.loading = false;
       // if (res.planned == 0)

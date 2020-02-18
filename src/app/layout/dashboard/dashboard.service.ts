@@ -51,12 +51,14 @@ configFile = config;
   }
   
   getLandingPageSummary(data){
+    data.userId=this.user_id 
     const url = this.ip + '/landing-shop-summary';
     return this.http.post(url,data);
 
   }
   getCERegionList(obj){
     obj.act=1;
+    obj.userId=this.user_id
     const filter = JSON.stringify(obj);
     const url = this.ip + 'loadFilters';
     return this.http.post(url, filter);
@@ -64,18 +66,29 @@ configFile = config;
  
   getCESurveryersList(obj){
     obj.act=2;
+    obj.userId=this.user_id
     const filter = JSON.stringify(obj);
     const url = this.ip + 'loadFilters';
     return this.http.post(url, filter);
   }
   getCESummaryTableData(data){
+    data.userId=this.user_id
     const url = this.ip + '/landing-surveyor-summary';
     return this.http.post(url,data);
   }
 
   getExportData(data){
+    data.userId=this.user_id
+
     const url = this.ip + '/export-data-report';
     return this.http.post(url,data);
+  }
+
+  getCEShopData(obj){
+    obj.userId=this.user_id
+
+    const url = this.ip + '/evaluationShopList';
+    return this.http.post(url,obj);
   }
 //#endregion
 

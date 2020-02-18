@@ -69,8 +69,9 @@ const routes: Routes = [
 
         ]
     },
-    { path: 'shop_detail/:id', component: ShopDetailComponent },
     // { path: 'shop_detail/:id', component: ShopDetailComponent },
+    { path: 'shop_detail/:id/:startDate/:endDate', component: ShopDetailComponent },
+
 
     { path: 'evaluation', loadChildren: './evaluation/evaluation.module#EvaluationModule' },
 

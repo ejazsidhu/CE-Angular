@@ -12,8 +12,8 @@
             <ng-container *ngIf="item.subMenu">
                 <div class="nested-menu">
                     <a mat-list-item (click)="addExpandClass(item.header)" (click)="getIndex(i)">
-                        <mat-icon class="sidenav-icon" *ngIf="item.header=='Dashboard' ">add</mat-icon>
-                        <mat-icon class="sidenav-icon" *ngIf="item.header=='Reports' ">add</mat-icon>
+                        <mat-icon class="sidenav-icon" *ngIf="item.header=='Export Data' ">add</mat-icon>
+                        <mat-icon class="sidenav-icon" *ngIf="item.header=='RF Shop Report' ">add</mat-icon>
                         <mat-icon class="sidenav-icon" *ngIf="item.header=='Admin' ">add</mat-icon>
                         {{ item.header | translate }}
                     </a>

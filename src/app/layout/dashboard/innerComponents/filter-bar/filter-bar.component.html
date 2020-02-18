@@ -27,7 +27,7 @@
 
             <mat-form-field *ngIf="surveyorsList.length>0" class="example-margin mr-10-IMP">
                 <mat-select placeholder="Surveryer" name='surveryer' [(ngModel)]="selectedSurveryer"
-                (ngModelChange)="getCELandingPageSummary()"
+                
                 >
 
                     <mat-option [value]="surveryer" *ngFor="let surveryer of surveyorsList">{{surveryer?.fullName}}</mat-option>
@@ -187,7 +187,6 @@
 
 <!-- stats end-->
 
-{{router.url |json}}
 <ng-container *ngIf="tableData.length>0 && router.url==='/dashboard/home'">
     <mat-card >
         <mat-card-content>
@@ -263,7 +262,7 @@
                             <td>{{item.shops}}</td>
                             <td class="a-link" *ngIf="item.evaluated_shops!=0" title="evaluated_shops">
                                 <a class="a-link" target="_blank" title="view shop details"
-                                    [routerLink]="['/dashboard/shop_detail',item.id]"
+                                    [routerLink]="['/dashboard/shop_detail',item.id,formateDate(this.startDate),formateDate(this.endDate)]"
                                     [queryParams]="{'id':item.id,'remark_id':-1}"
                                     queryParamsHandling="merge">{{item?.evaluated_shops}}</a>
 
@@ -274,7 +273,7 @@
                             </td>
                           <td class="a-link" *ngIf="item?.approved_shops!=0" title="Successful">
                                 <a class="a-link" target="_blank" title="view shop details"
-                                    [routerLink]="['/dashboard/shop_detail',item.id]"
+                                    [routerLink]="['/dashboard/shop_detail',item.id,formateDate(this.startDate),formateDate(this.endDate)]"
                                     [queryParams]="{'id':item.id,'remark_id':1}" queryParamsHandling="merge">
                                     {{item?.approved_shops}}</a>
 
@@ -286,7 +285,7 @@
 
                             <td class="a-link" *ngIf="item.pending_shops!=0" title="Un-Successful">
                                 <a class="a-link" target="_blank" title="view shop details"
-                                    [routerLink]="['/dashboard/shop_detail',item.id]"
+                                    [routerLink]="['/dashboard/shop_detail',item.id,formateDate(this.startDate),formateDate(this.endDate)]"
                                     [queryParams]="{'id':item.id,'remark_id':0}" queryParamsHandling="merge">
                                     {{item?.pending_shops}}</a>
 
