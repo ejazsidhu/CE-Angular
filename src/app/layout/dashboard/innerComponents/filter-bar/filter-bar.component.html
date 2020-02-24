@@ -17,7 +17,7 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field *ngIf="regions.length>0" class="example-margin mr-10-IMP">
+            <mat-form-field *ngIf="regions?.length>0" class="example-margin mr-10-IMP">
                 <mat-select placeholder="Region" name='region' [(ngModel)]="selectedRegion"
                 (ngModelChange)="getSurveryersList()" >
 
@@ -25,7 +25,7 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field *ngIf="surveyorsList.length>0" class="example-margin mr-10-IMP">
+            <mat-form-field *ngIf="surveyorsList?.length>0" class="example-margin mr-10-IMP">
                 <mat-select placeholder="Surveryer" name='surveryer' [(ngModel)]="selectedSurveryer"
                 
                 >
@@ -60,7 +60,7 @@
 </mat-card>
 
 <!-- stats Tabs-->
-<div *ngIf="router.url==='/dashboard/home'" class="mb-20 animated  slideInLeft" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="10px">
+<div *ngIf="tabsData && router.url==='/dashboard/home'" class="mb-20 animated  slideInLeft" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="10px">
 
 <div class="row web-view">
     <!-- <p>web view</p> -->
@@ -70,7 +70,7 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div>
-                            <app-stat [bgClass]="'info'" [icon]="'assignment'" [count]="tabsData?.pending_shops" [label]="'Planned'">
+                            <app-stat [bgClass]="'info'" [icon]="'assignment'" [count]="tabsData?.shops" [label]="'Visited'">
                             </app-stat>
                         </div>
                     </div>
@@ -132,7 +132,7 @@
                 <div class="row">
                     <div class="col-6 mobile-view-info-tabs">
                         <div>
-                            <app-stat [bgClass]="'info'" [icon]="'assignment'" [count]="tabsData?.planned" [label]="'Planned'">
+                            <app-stat [bgClass]="'info'" [icon]="'assignment'" [count]="tabsData?.shops" [label]="'Visited'">
                             </app-stat>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
 
 <!-- stats end-->
 
-<ng-container *ngIf="tableData.length>0 && router.url==='/dashboard/home'">
+<ng-container *ngIf="tableData?.length>0 && router.url==='/dashboard/home'">
     <mat-card >
         <mat-card-content>
 

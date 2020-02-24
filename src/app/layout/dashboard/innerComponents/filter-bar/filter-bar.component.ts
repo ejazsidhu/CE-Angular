@@ -88,8 +88,8 @@ tableData: any = [];
     private dataService: DashboardDataService,
     private excelService: ExcelService,
   ) {
-    this.zones = JSON.parse(localStorage.getItem('zoneList'));
-    if(this.zones.length==0)
+    // this.zones = JSON.parse(localStorage.getItem('zoneList'));
+    // if(this.zones.length==0)
     this.getZoneList();
     // this.categoryList = JSON.parse(localStorage.getItem('assetList'));
     // this.channels = JSON.parse(localStorage.getItem('channelList'));

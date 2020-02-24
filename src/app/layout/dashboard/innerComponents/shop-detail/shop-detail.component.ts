@@ -17,7 +17,7 @@ export class ShopDetailComponent implements OnInit {
   // ip= environment.ip
   configFile = config;
 
-  ip: any = this.configFile.ip;
+  ip: any = "http://nflcensus.concavetech.com/";//this.configFile.ip;
   remarksId: any = 0;
 
   @ViewChild('childModal') childModal: ModalDirective;
